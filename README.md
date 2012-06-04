@@ -80,5 +80,6 @@ to uninstall:
 
 **That's it!**
 
+Thank you to: [QuasarDonkey](http://stackoverflow.com/users/1428922/quasardonkey)
 
 

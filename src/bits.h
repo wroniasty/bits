@@ -1,6 +1,8 @@
 /** -*- mode: c++ -*-
  * 
  */
+#ifndef __BITS__BITS_H
+#define __BITS__BITS_H
 #include <stdint.h>
 #include <string>
 #include <iostream>
@@ -102,3 +104,5 @@ namespace bits {
   }
 
 }
+
+#endif

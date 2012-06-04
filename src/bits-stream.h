@@ -1,6 +1,8 @@
 /** -*- mode: c++ -*-
  * 
  */
+#ifndef __BITS__BITS_STREAM_H
+#define __BITS__BITS_STREAM_H 1
 #include <stdint.h>
 #include <string>
 #include <iostream>
@@ -53,3 +55,5 @@ namespace bits {
   };
 
 }
+
+#endif

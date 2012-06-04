@@ -10,3 +10,11 @@
 *.lai
 *.la
 *.a
+
+*~
+
+build/*
+docs/html/*
+config.log
+.sconsign.dblite
+.sconf*

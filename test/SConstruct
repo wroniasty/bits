@@ -1,4 +1,0 @@
-Import('env')
-
-env.Program('test', ['test.cpp'], LIBS=['bits', 'cpptest'], LIBPATH='../build')
-

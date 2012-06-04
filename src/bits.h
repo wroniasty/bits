@@ -1,6 +1,6 @@
-/** -*- mode: c++ -*-
- * 
- */
+/** -*- mode: c++ -*- 
+  Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php 
+*/
 #ifndef __BITS__BITS_H
 #define __BITS__BITS_H
 #include <stdint.h>

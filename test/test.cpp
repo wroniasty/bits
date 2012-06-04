@@ -1,3 +1,6 @@
+/** -*- mode: c++ -*-
+ * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ */
 #include <iostream>
 #include <string>
 #include <cpptest.h>
@@ -8,7 +11,6 @@
 #include "bits-stream.h"
 
 
-//using namespace bits;
 using std::cout; using std::endl; using std::cerr;
 
 class BitsTestSuite : public Test::Suite {
@@ -110,26 +112,4 @@ int main(int argc, char *argv[]) {
   BitsTestSuite bitstest;
   Test::TextOutput output(Test::TextOutput::Verbose);
   return bitstest.run(output);
-
-  /*
-  unsigned char buffer[24];
-  memset(buffer, 1+4+16+64, sizeof(buffer) );
-  for (size_t s=sizeof(buffer);s>0;s--) buffer[s-1]=(1+4+16+64);
-  
-  //  setbitbuffer (buffer, 0, 32, 0xffffffff );
-  cout << "B2 < " << bits::binstr(buffer, 8 ) << endl;
-  bits::setbitbuffer<unsigned long long> (buffer, 2, 8, 0x1);
-  cout << "T1 < " << bits::binstr( bits::getbitbuffer<unsigned long long> (buffer, 0, 64) ) << endl;
-  return 0;
-
-  for (int offset=0;offset<40;offset++) {
-    for (size_t s=sizeof(buffer);s>0;s--) buffer[s-1]=0xff;
-    bits::setbitbuffer<unsigned int> (buffer, offset, 31, 0x0);
-    cout << "B2 < " << bits::binstr(buffer, sizeof(buffer) ) << endl;
-  }
-
-  return 1;
-
-  return bitstest.run ( output );
-  */
 }

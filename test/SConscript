@@ -1,0 +1,8 @@
+Import('env', 'conf')
+
+if conf.CheckLibWithHeader ( 'cpptest', 'cpptest.h', 'cxx' ):
+   env.Program('test', ['test.cpp'], LIBS=['bits', 'cpptest'], LIBPATH='../build')
+else:
+   print "Did not find CppTest library and headers, skipping test suite compilation."
+
+		

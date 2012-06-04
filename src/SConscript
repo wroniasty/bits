@@ -1,0 +1,8 @@
+Import('env')
+
+libbits = env.Library('bits', ['bits.cpp', 'bits-stream.cpp'])
+env.Install ( '/usr/lib', libbits )
+env.Install ( '/usr/include/bits', [ 'bits.h', 'bits-stream.h' ] )
+
+env.Alias ( 'install', ['/usr/lib', '/usr/include'] )
+

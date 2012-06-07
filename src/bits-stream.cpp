@@ -10,6 +10,8 @@ namespace bits {
   }
 
   unsigned char * bitstream::ptr() { return buffer; }
+  unsigned char * bitstream::current() { return buffer + position()/8; }
+  bool bitstream::aligned() { return position()%8 == 0; }
 
   void bitstream::seek(int position) { offset = position; }
   void bitstream::rewind() { offset = 0; }
@@ -52,6 +54,24 @@ namespace bits {
     } else {
       /* otherwise just copy the buffer */
       memcpy (buffer+(position()/8), src, numbits/8 );
+      skip (numbits);
+    }
+  }
+
+  void bitstream::zero (int numbits) {
+    memset (numbits, 0);
+  }
+
+  void bitstream::memset(int numbits, unsigned char value ) {
+    if ( position()%8 || numbits%8 ) {
+      /* if the write is not aligned, write byte by byte (slowish) */
+      while (numbits > 0) {
+	write<unsigned> ( std::min(numbits, 8), value );
+	numbits -= 8;
+      }
+    } else {
+      /* otherwise just copy the buffer */
+      ::memset (current(), value, numbits/8 );
       skip (numbits);
     }
   }

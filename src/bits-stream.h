@@ -18,6 +18,8 @@ namespace bits {
     bitstream(unsigned char *data);
 
     unsigned char * ptr();
+    unsigned char * current();
+    bool aligned();
 
     void seek(int position);
     void rewind();
@@ -52,6 +54,8 @@ namespace bits {
  
     void writestring_at(int offset, int numbits, const unsigned char *v); 
     void writestring(int numbits, const unsigned char *v); 
+    void zero (int numbits);
+    void memset(int numbits, unsigned char value );
   };
 
 }

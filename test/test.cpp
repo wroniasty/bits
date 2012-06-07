@@ -19,6 +19,7 @@ public:
     TEST_ADD(BitsTestSuite::put_test);
     TEST_ADD(BitsTestSuite::byte_test);
     TEST_ADD(BitsTestSuite::stream_test);
+    TEST_ADD(BitsTestSuite::stream_memset_test);
   }
 
 private:
@@ -105,6 +106,30 @@ private:
     TEST_ASSERT ( stream.read_at<unsigned char>(26,8) == 3 );
 
   }
+
+  void stream_memset_test() {
+    unsigned char buffer[16];
+    bits::bitstream stream(buffer);
+
+    memset(buffer, 0xff, sizeof(buffer) );
+
+    stream.zero (sizeof(buffer)*8 );
+    for (int i=0;i<sizeof(buffer);i++) TEST_ASSERT ( stream.read_at<char> (i*8, 8) == 0 );
+
+    stream.rewind();
+    stream.memset ( sizeof(buffer)*8, 170 );
+    for (int i=0;i<sizeof(buffer);i++) {
+      TEST_ASSERT ( stream.read_at<unsigned char> (i*8, 8) == 170 );
+    }
+    
+    memset(buffer, 0xff, sizeof(buffer) );
+    stream.rewind();
+    stream.skip(4);
+    stream.memset ( (sizeof(buffer) - 1)*8, 170 );
+    for (int i=0;i<sizeof(buffer)-1;i++) TEST_ASSERT ( stream.read_at<unsigned char> (i*8+4, 8) == 170 );
+
+  }
+
 };
 
 

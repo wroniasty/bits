@@ -20,10 +20,12 @@ public:
     TEST_ADD(BitsTestSuite::byte_test);
     TEST_ADD(BitsTestSuite::stream_test);
     TEST_ADD(BitsTestSuite::stream_memset_test);
+    TEST_ADD(BitsTestSuite::strings_test);
   }
 
 private:
   void put_test() {
+    put_test_t<char> ( "char" );
     put_test_t<unsigned char> ( "unsigned char" );
     put_test_t<unsigned> ( "unsigned" );
     put_test_t<unsigned short> ( "unsigned short" );
@@ -52,7 +54,7 @@ private:
   }
 
   template <class T> void put_test_t (const char *msg) {
-    unsigned char buffer[sizeof(T)*10];
+    unsigned char buffer[sizeof(T)*100];
 
     for (int offset=0; offset < sizeof(T); offset++) {
       for (int numbits=9; numbits<=sizeof(T); numbits++) {
@@ -104,6 +106,39 @@ private:
     TEST_ASSERT ( stream.read_at<unsigned char>(10,8) == 1 );
     TEST_ASSERT ( stream.read_at<unsigned char>(18,8) == 2 );
     TEST_ASSERT ( stream.read_at<unsigned char>(26,8) == 3 );
+
+  }
+
+  void strings_test() {
+    unsigned char buffer[83];
+    bits::bitstream stream(buffer);
+
+    memset(buffer, 0, sizeof(buffer) );
+
+    for (int i=0; i < 77; i+=3) {
+      stream.writestring ( std::string("ABC") );
+    }
+
+    stream.rewind();
+    for (int i=0; i < 77; i+=3) {
+      std::string s = stream.readstring ( 24 );
+      TEST_ASSERT ( s == "ABC" );
+    }
+
+    /* across byte boundaries */
+    stream.rewind();
+    stream.skip(4);
+    for (int i=0; i < 77; i+=3) {
+      stream.writestring ( std::string("ABC") );
+    }
+
+    stream.rewind();
+    stream.skip(4);
+    for (int i=0; i < 77; i+=3) {
+      std::string s = stream.readstring ( 24 );
+      TEST_ASSERT ( s == "ABC" );
+    }
+
 
   }
 

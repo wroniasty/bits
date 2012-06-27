@@ -42,7 +42,9 @@ namespace bits {
 
     void readstring_at(unsigned char *dst, int offset, int numbits);
     void readstring(unsigned char *dst, int numbits);
+    std::string readstring(int numbits);
     void peekstring(unsigned char *dst, int numbits);
+    std::string peekstring(int numbits);
 
     template<class T> void write(int numbits, T v) {
       setbitbuffer<T> (buffer, offset, numbits, v);
@@ -53,7 +55,13 @@ namespace bits {
     }
  
     void writestring_at(int offset, int numbits, const unsigned char *v); 
+    void writestring_at(int offset, std::string s);
+    void writestring_at(int offset, std::string s, int max_bytes);
     void writestring(int numbits, const unsigned char *v); 
+
+    void writestring(std::string s);
+    void writestring(std::string s, int max_bytes);
+
     void zero (int numbits);
     void memset(int numbits, unsigned char value );
   };

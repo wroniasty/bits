@@ -9,6 +9,7 @@ if sys.byteorder == "little":
 
 env['CPPFLAGS'] = []
 env['CPPFLAGS'].append ( '-I' + os.getcwd() + '/src' )
+env['CPPFLAGS'].append ( '-g' )
 
 env.SConscript ('src/SConscript', variant_dir='build', exports=['env', 'conf'])
 env.SConscript ('test/SConscript', exports=['env', 'conf'])

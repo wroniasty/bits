@@ -7,7 +7,11 @@
 #include <string>
 #include <iostream>
 
+#include "boost/format.hpp"
+
 namespace bits {
+    
+  std::string hexdump ( const unsigned char * buffer, int length, int line_size);
 
   std::string binstr(unsigned char v);
   std::string binstr(const unsigned char * v, std::size_t size);

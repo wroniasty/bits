@@ -32,9 +32,22 @@ namespace bits {
     }
   }
 
+  std::string bitstream::peekstring(int numbits) {
+    unsigned char dst[numbits/8 + (numbits%8 ? 2 : 1)];
+    peekstring (dst, numbits);
+    dst[sizeof(dst)-1] = 0;
+    return std::string ( (char *) dst );
+  }
+
   void bitstream::readstring(unsigned char *dst, int numbits) {
     peekstring(dst, numbits);
     skip(numbits);
+  }
+
+  std::string bitstream::readstring(int numbits) {
+    std::string s = peekstring(numbits);
+    skip(numbits);
+    return s;
   }
 
   void bitstream::readstring_at(unsigned char *dst, int offset, int numbits) {
@@ -56,6 +69,15 @@ namespace bits {
       memcpy (buffer+(position()/8), src, numbits/8 );
       skip (numbits);
     }
+  }
+
+  void bitstream::writestring(std::string s, int max_bytes) {
+    writestring ( std::min(max_bytes*8, (int) s.size() * 8), (const unsigned char *) s.c_str() );
+    if (max_bytes > s.size()) zero ( (max_bytes - s.size()) * 8 );
+  }
+
+  void bitstream::writestring(std::string s) {
+    writestring (s, s.size() );
   }
 
   void bitstream::zero (int numbits) {
@@ -81,6 +103,17 @@ namespace bits {
     seek(offset);
     writestring ( numbits, src );
     seek(current_offset);
+  }
+
+  void bitstream::writestring_at(int offset, std::string s, int max_bytes) {
+    unsigned current_offset = position();
+    seek(offset);
+    writestring ( s, max_bytes );
+    seek(current_offset);
+  }
+
+  void bitstream::writestring_at(int offset, std::string s) {
+    writestring_at (offset, s, s.size() );
   }
 
 }

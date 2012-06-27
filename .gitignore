@@ -18,3 +18,4 @@ docs/html/*
 config.log
 .sconsign.dblite
 .sconf*
+/nbproject/private/

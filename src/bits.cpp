@@ -5,7 +5,20 @@
 
 
 namespace bits {
-
+  std::string hexdump ( const unsigned char * buffer, int length, int line_size) {
+        std::string dump;
+        for (int i = 0; i < length; i+=line_size) {
+            std::string _hex, _ascii;
+            for (int j=i; j < i+line_size; j++) {
+                _hex += boost::str ( boost::format("%02X ") % (int)buffer[j] );
+                if (j%4 == 3) _hex += " ";
+                _ascii += (buffer[j] >= ' ' && buffer[j] <= 'z') ? buffer[j] : '.';
+            }
+            dump = dump + _hex + "   " + _ascii + "\n"; //endl;
+        }
+        return dump;
+  }
+  
   std::string binstr(unsigned char v) {
     std::string s; unsigned int m = 128;
     while (m > 0) {

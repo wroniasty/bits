@@ -21,11 +21,11 @@ public:
     TEST_ADD(BitsTestSuite::stream_test);
     TEST_ADD(BitsTestSuite::stream_memset_test);
     TEST_ADD(BitsTestSuite::strings_test);
+    TEST_ADD(BitsTestSuite::misc_writes_test);
   }
 
 private:
   void put_test() {
-    put_test_t<char> ( "char" );
     put_test_t<unsigned char> ( "unsigned char" );
     put_test_t<unsigned> ( "unsigned" );
     put_test_t<unsigned short> ( "unsigned short" );
@@ -33,6 +33,20 @@ private:
     put_test_t<unsigned long long> ( "unsigned long long" );
   }
 
+  void misc_writes_test() {      
+      unsigned char buffer[16];
+      memset (buffer,0,sizeof(buffer));
+      bits::bitstream stream(buffer);
+      
+      for (int i=0; i < 8; i++) {
+          stream.rewind();
+          buffer[0] = 0x00;
+          stream.write_at(i, 1, 1U);
+          TEST_ASSERT ( buffer[0] == 128 >> i );
+      }
+      
+  }
+  
   void byte_test() {
     unsigned char buffer[12];
     memset(buffer, 0, sizeof(buffer) );
@@ -91,13 +105,13 @@ private:
 
     memset(buffer, 0, sizeof(buffer) );
     
-    stream.write(8, 'a');
-    TEST_ASSERT ( stream.read_at<char>(0,8) == 'a' );
-    stream.write(8, 'b');
-    TEST_ASSERT ( stream.read_at<char>(8,8) == 'b' );
-    stream.write(8, 'c');
-    TEST_ASSERT ( stream.read_at<char>(16,8) == 'c' );
-    stream.write(8, (unsigned char) 0);
+    stream.write<unsigned char>(8, 'a');
+    TEST_ASSERT ( stream.read_at<unsigned char>(0,8) == 'a' );
+    stream.write<unsigned char>(8, 'b');
+    TEST_ASSERT ( stream.read_at<unsigned char>(8,8) == 'b' );
+    stream.write<unsigned char>(8, 'c');
+    TEST_ASSERT ( stream.read_at<unsigned char>(16,8) == 'c' );
+    stream.write<unsigned char>(8, (unsigned char) 0);
     
 
     stream.seek(10);
@@ -149,7 +163,7 @@ private:
     memset(buffer, 0xff, sizeof(buffer) );
 
     stream.zero (sizeof(buffer)*8 );
-    for (int i=0;i<sizeof(buffer);i++) TEST_ASSERT ( stream.read_at<char> (i*8, 8) == 0 );
+    for (int i=0;i<sizeof(buffer);i++) TEST_ASSERT ( stream.read_at<unsigned char> (i*8, 8) == 0 );
 
     stream.rewind();
     stream.memset ( sizeof(buffer)*8, 170 );

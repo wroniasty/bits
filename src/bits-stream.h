@@ -47,10 +47,13 @@ namespace bits {
     std::string peekstring(int numbits);
 
     template<class T> void write(int numbits, T v) {
+      BITS_T_ASSERT(T);
       setbitbuffer<T> (buffer, offset, numbits, v);
       offset += numbits;
     }
+
     template<class T> void write_at(int offset, int numbits, T v) {
+      BITS_T_ASSERT(T);
       setbitbuffer<T> (buffer, offset, numbits, v);
     }
  

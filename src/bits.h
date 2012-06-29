@@ -7,7 +7,10 @@
 #include <string>
 #include <iostream>
 
-#include "boost/format.hpp"
+#include <boost/format.hpp>
+#include <boost/static_assert.hpp>
+
+#define BITS_T_ASSERT(T) BOOST_STATIC_ASSERT(!std::numeric_limits<T>::is_signed)
 
 namespace bits {
     
@@ -31,6 +34,7 @@ namespace bits {
   unsigned char setbits (unsigned char c, int offset, int numbits, unsigned char v);
 
   template <class T> void setbitvalue (unsigned char *buffer, T v ,T m ) {
+    BITS_T_ASSERT(T);
     /**
      * Write the value of v in network byte order starting at the location
      * pointed to by buffer, using m as the bitmask.
@@ -53,6 +57,7 @@ namespace bits {
   }
 
   template <class T> void setbitbuffer (unsigned char *buffer, int offset, std::size_t numbits, T value) {
+    BITS_T_ASSERT(T);
     /**
      * Write the numbits most significant bits of value to buffer, starting at bit offset 
      * in network byte order.
@@ -77,6 +82,7 @@ namespace bits {
   }
 
   template <class T> T getbitvalue (unsigned char *buffer, T m) {
+    BITS_T_ASSERT(T);
     T rval = 0;
     unsigned shift = sizeof(T)*8;
     for (int j=0;j<sizeof(T);j++) {
@@ -88,6 +94,7 @@ namespace bits {
   }
 
   template <class T> T getbitbuffer (unsigned char *buffer, int offset, std::size_t numbits) {
+    BITS_T_ASSERT(T);
     T m, rval;
     unsigned remaining_bits;
     std::size_t size = sizeof(T) * 8;
